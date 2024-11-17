@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusYT - Distraction-free Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FocusYT</h1>
+            <p>Distraction-free YouTube playlist viewer</p>
+        </header>
+
+        <div class="input-section">
+            <input type="text" id="playlist-input" 
+                   placeholder="Paste YouTube playlist URL here...">
+            <button id="load-playlist">Load Playlist</button>
+        </div>
+
+        <div class="player-container">
+            <div id="player"></div>
+        </div>
+
+        <div class="playlist-info">
+            <div id="current-video-title"></div>
+            <div id="progress"></div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="prev">Previous</button>
+            <button class="control-btn" id="play-pause">Play</button>
+            <button class="control-btn" id="next">Next</button>
+        </div>
+
+        <div class="branding">
+            Made with ❤️ by Aryan Shrivastava 
+            <a href="https://instagram.com/code.aryan" target="_blank" class="social-link">
+                <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+            color: #888888;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #3498db;
+        }
+
+        .instagram-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+    </style>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="app.js"></script>
+</body>
+</html>

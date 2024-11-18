@@ -1,13 +1,25 @@
 // Global variables
+let API_KEY = '';
 let player;
 let currentPlaylist = [];
 let currentVideoIndex = 0;
 
+// Fetch API key when page loads
+async function initializeApp() {
+    try {
+        const response = await fetch('http://localhost:3000/api/config');
+        const config = await response.json();
+        API_KEY = config.youtubeApiKey;
+    } catch (error) {
+        console.error('Error fetching config:', error);
+    }
+}
+
 // Initialize YouTube player when API is ready
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        height: '100%',
-        width: '100%',
+        height: '360',
+        width: '640',
         videoId: '',
         playerVars: {
             'playsinline': 1,
@@ -38,52 +50,67 @@ function onPlayerStateChange(event) {
 
 // Extract playlist ID from URL
 function getPlaylistIdFromUrl(url) {
-    const regex = /[?&]list=([^#\&\?]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
+    try {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        return urlParams.get('list');
+    } catch (error) {
+        console.error('Invalid URL:', error);
+        return null;
+    }
 }
 
 // Load playlist when button is clicked
-document.getElementById('load-playlist').addEventListener('click', async () => {
+document.getElementById('load-playlist').addEventListener('click', () => {
     const playlistUrl = document.getElementById('playlist-input').value;
+    console.log('Input URL:', playlistUrl); // Debug log
+    
     const playlistId = getPlaylistIdFromUrl(playlistUrl);
+    console.log('Extracted playlist ID:', playlistId); // Debug log
     
     if (!playlistId) {
-        alert('Please enter a valid YouTube playlist URL');
+        alert('Please enter a valid YouTube playlist URL\nExample: https://www.youtube.com/playlist?list=PLAYLIST_ID');
         return;
     }
     
-    try {
-        await loadPlaylist(playlistId);
-    } catch (error) {
-        console.error('Error loading playlist:', error);
-        alert('Error loading playlist. Please try again.');
-    }
+    loadPlaylist(playlistId);
 });
 
 // Load playlist videos using YouTube Data API
 async function loadPlaylist(playlistId) {
-    // Note: In a production environment, API calls should be made through your backend
-    // This is a simplified version for demonstration
-    const API_KEY = process.env.YOUTUBE_API_KEY;
-    const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`);
-    const data = await response.json();
-    
-    currentPlaylist = data.items.map(item => ({
-        id: item.snippet.resourceId.videoId,
-        title: item.snippet.title
-    }));
-    
-    // Load last played video index from localStorage
-    const lastPlaylistId = localStorage.getItem('lastPlaylistId');
-    if (lastPlaylistId === playlistId) {
-        currentVideoIndex = parseInt(localStorage.getItem('lastVideoIndex')) || 0;
-    } else {
+    try {
+        console.log('Loading playlist:', playlistId); // Debug log
+        const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`;
+        
+        console.log('Fetching from:', apiUrl); // Debug log
+        
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('API Error:', errorData); // Debug log
+            throw new Error(`API Error: ${errorData.error.message}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data); // Debug log
+
+        if (!data.items || data.items.length === 0) {
+            throw new Error('Playlist is empty or not found');
+        }
+
+        currentPlaylist = data.items.map(item => ({
+            id: item.snippet.resourceId.videoId,
+            title: item.snippet.title
+        }));
+
         currentVideoIndex = 0;
+        playVideo(currentVideoIndex);
+        updateProgress();
+
+    } catch (error) {
+        console.error('Error loading playlist:', error);
+        alert(`Error loading playlist: ${error.message}`);
     }
-    
-    playVideo(currentVideoIndex);
-    updateProgress();
 }
 
 // Play video at specified index
@@ -140,3 +167,7 @@ window.addEventListener('load', () => {
         input.value = `https://www.youtube.com/playlist?list=${lastPlaylistId}`;
     }
 });
+
+// Call initializeApp when document loads
+document.addEventListener('DOMContentLoaded', initializeApp);
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;

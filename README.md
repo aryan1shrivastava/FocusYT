@@ -25,3 +25,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Author
 - Aryan Shrivastava
 - [@code.aryan](https://instagram.com/code.aryan)
+
+## Environment Setup
+
+1. Copy `.env.example` to `.env`
+2. Add your YouTube API key to `.env`
+3. Never commit `.env` file to version control

@@ -1,149 +1,167 @@
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
-        :root {
-            --primary-color: #3498db;
-            --bg-dark: #1a1a1a;
-            --text-light: #ffffff;
-            --text-gray: #888888;
-        }
+:root {
+    --primary-color: #f0f0f0;
+    --bg-dark: #1a1a1a;
+    --text-light: #f0f0f0;
+    --text-gray: #e0e0e0;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(
+        -45deg,
+        #f72585,
+        #7209b7,
+        #3a0ca3,
+        #4361ee
+    );
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    color: var(--text-light);
+    line-height: 1.6;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
 
-        .input-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.input-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        #playlist-input {
-            width: 80%;
-            max-width: 600px;
-            padding: 12px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 25px;
-            background: #2a2a2a;
-            color: var(--text-light);
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
+#playlist-input {
+    width: 80%;
+    max-width: 600px;
+    padding: 12px 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    background: #2a2a2a;
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
 
-        #load-playlist {
-            padding: 10px 25px;
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+#load-playlist {
+    padding: 13px 25px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    color: var(--bg-dark);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
 
-        #load-playlist:hover {
-            transform: scale(1.05);
-        }
+#load-playlist:hover {
+    transform: scale(1.05);
+}
 
-        .player-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            margin-bottom: 20px;
-        }
+.player-container {
+    aspect-ratio: 16/9;
+    margin-bottom: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
 
-        #player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-        }
+#player {
+    width: 100%;
+    height: 100%;
+}
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
 
-        .control-btn {
-            padding: 10px 20px;
-            background: #2a2a2a;
-            border: 1px solid var(--primary-color);
-            border-radius: 15px;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+.control-btn {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    color: var(--bg-dark);
+    cursor: pointer;
+    transition: all 0.2s;
+}
 
-        .control-btn:hover {
-            background: var(--primary-color);
-        }
+.control-btn:hover {
+    background: var(--bg-dark);
+    color: var(--primary-color);
+}
 
-        .playlist-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.playlist-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        #current-video-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
+#current-video-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
 
-        #progress {
-            color: var(--text-gray);
-        }
+#progress {
+    color: var(--text-gray);
+}
 
-        .branding {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--text-gray);
-            font-style: italic;
-        }
+.branding {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--primary-color);
+    font-style: italic;
+}
 
-        .follow {
-            text-align: center;
-            margin: 20px 0;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
+.follow {
+    text-align: center;
+    margin: 20px 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
 
-            h1 {
-                font-size: 2rem;
-            }
+    h1 {
+        font-size: 2rem;
+    }
 
-            #playlist-input {
-                width: 90%;
-            }
-        }
+    #playlist-input {
+        width: 90%;
+    }
+}
     

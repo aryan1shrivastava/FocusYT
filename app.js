@@ -3,6 +3,7 @@ let API_KEY = '';
 let player;
 let currentPlaylist = [];
 let currentVideoIndex = 0;
+let isPlayerReady = false;
 
 // Fetch API key when page loads
 async function initializeApp() {
@@ -27,9 +28,16 @@ function onYouTubeIframeAPIReady() {
             'modestbranding': 1
         },
         events: {
+            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
         }
     });
+}
+
+// Add this function
+function onPlayerReady(event) {
+    isPlayerReady = true;
+    console.log('Player is ready');
 }
 
 // Handle player state changes
@@ -104,7 +112,15 @@ async function loadPlaylist(playlistId) {
         }));
 
         currentVideoIndex = 0;
-        playVideo(currentVideoIndex);
+        
+        // Add a check here
+        if (!player || !isPlayerReady) {
+            console.log('Waiting for player to initialize...');
+            setTimeout(() => playVideo(currentVideoIndex), 1000);
+        } else {
+            playVideo(currentVideoIndex);
+        }
+        
         updateProgress();
 
     } catch (error) {
@@ -115,6 +131,12 @@ async function loadPlaylist(playlistId) {
 
 // Play video at specified index
 function playVideo(index) {
+    if (!isPlayerReady) {
+        console.log('Player not ready yet');
+        setTimeout(() => playVideo(index), 1000); // Try again in 1 second
+        return;
+    }
+    
     if (index >= 0 && index < currentPlaylist.length) {
         currentVideoIndex = index;
         player.loadVideoById(currentPlaylist[index].id);
@@ -171,3 +193,28 @@ window.addEventListener('load', () => {
 // Call initializeApp when document loads
 document.addEventListener('DOMContentLoaded', initializeApp);
 window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+// Make sure YouTube API is loaded
+function loadYouTubeAPI() {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+// Initialize everything when document loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadYouTubeAPI();
+    
+    document.getElementById('load-playlist').addEventListener('click', () => {
+        const playlistUrl = document.getElementById('playlist-input').value;
+        const playlistId = getPlaylistIdFromUrl(playlistUrl);
+        
+        if (!playlistId) {
+            alert('Please enter a valid YouTube playlist URL\nExample: https://www.youtube.com/playlist?list=PLAYLIST_ID');
+            return;
+        }
+        
+        loadPlaylist(playlistId);
+    });
+});

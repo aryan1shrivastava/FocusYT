@@ -9,7 +9,6 @@
 - Clean, minimalist interface
 - No distracting recommendations, ads, or comments
 - Simple and intuitive playlist controls
-- Automatic progress tracking
 
 ---
 

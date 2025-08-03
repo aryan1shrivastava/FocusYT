@@ -19,8 +19,6 @@
 
 ## 🛠️ Getting Started
 
-### Setup Instructions
-
 1. Clone the repository:
 
     ```bash

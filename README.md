@@ -60,7 +60,6 @@ To contribute:
 
 Please read the [Contributing Guidelines](CONTRIBUTING.md) for more details before submitting a pull request.
 
----
 
 ## 📄 License
 

@@ -67,7 +67,6 @@ This project is licensed under the MIT License.
 
 You can read the full license in the [LICENSE](LICENSE) file.
 
----
 
 ## 👤 Author
 
